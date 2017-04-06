@@ -11,9 +11,19 @@
 export type Base64String = string;
 
 export function base64(i: string): Base64String {
-  return new Buffer(i, 'utf8').toString('base64');
+  if (global.Buffer) {
+    return new Buffer(i, 'utf8').toString('base64');
+  }
+
+  const base64 = require('base-64');
+  return base64.encode(i);
 }
 
 export function unbase64(i: Base64String): string {
-  return new Buffer(i, 'base64').toString('utf8');
+  if (global.Buffer) {
+    return new Buffer(i, 'base64').toString('utf8');
+  }
+
+  const base64 = require('base-64');
+  return base64.decode(i);
 }
